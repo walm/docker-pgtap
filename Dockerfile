@@ -12,12 +12,17 @@ RUN cd /tmp && git clone -b $PLV8_BRANCH https://github.com/plv8/plv8.git \
   && cd /tmp/plv8 \
   && make all install
 
-# install pgTap and pg_prove
+# install pg_prove
 RUN curl -LO http://xrl.us/cpanm \
     && chmod +x cpanm \
-    && ./cpanm TAP::Parser::SourceHandler::pgTAP \
-    && git clone git://github.com/theory/pgtap.git \
-    && cd pgtap && make
+    && ./cpanm TAP::Parser::SourceHandler::pgTAP
+
+
+# install pgtap
+ENV PGTAP_VERSION v0.95.0
+RUN git clone git://github.com/theory/pgtap.git \
+    && cd pgtap && git checkout tags/$PGTAP_VERSION \
+    && make
 
 ADD ./test.sh /test.sh
 RUN chmod +x /test.sh

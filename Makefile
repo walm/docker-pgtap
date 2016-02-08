@@ -1,4 +1,4 @@
-NAME = walm/pgtap
+NAME = walm/pgtap:0.95.0
 
 all: build
 
